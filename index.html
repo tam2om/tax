@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AMCO Tax Advisor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'jordan-blue': '#0a3161',
+            'jordan-gold': '#c69214'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #dbeafe 0%, #c7d2fe 100%);
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 52px;
+      height: 28px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #d1d5db;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: #4f46e5;
+    }
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-6 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <header class="text-center mb-10">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-3">AMCO Tax Advisor</h1>
+      <p class="text-xl text-indigo-700 max-w-3xl mx-auto">
+        Jordan Income Tax Calculator - Individual & Combined Filing Comparison
+      </p>
+      <div class="mt-3 text-gray-600">
+        Compliant with Jordanian Income Tax Law No. 34 of 2014
+      </div>
+    </header>
+    
+    <!-- Input Section -->
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden mb-12">
+      <div class="bg-indigo-700 text-white py-4 px-6 flex flex-col sm:flex-row sm:justify-between sm:items-center">
+        <h2 class="text-2xl font-bold">Income & Deductions</h2>
+        <label class="flex items-center mt-3 sm:mt-0 cursor-pointer">
+          <span class="mr-3 text-sm">Add Partner 2</span>
+          <label class="switch">
+            <input type="checkbox" id="partner2Toggle">
+            <span class="slider"></span>
+          </label>
+        </label>
+      </div>
+      
+      <div class="p-6 md:p-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8" id="inputContainer">
+          <!-- Partner 1 Inputs -->
+          <div class="space-y-6">
+            <div class="text-center bg-indigo-50 py-3 rounded-lg">
+              <h3 class="text-xl font-bold text-indigo-800">Partner 1</h3>
+            </div>
+            
+            <div>
+              <label for="partner1Income" class="block text-sm font-medium text-gray-700 mb-1">
+                Annual Gross Income (JOD)
+              </label>
+              <input
+                type="number"
+                id="partner1Income"
+                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="Enter annual income"
+                min="0"
+                step="0.01"
+              >
+              <p class="mt-1 text-sm text-red-500 hidden" id="error-partner1Income"></p>
+            </div>
+            
+            <div>
+              <label for="partner1TaxPaid" class="block text-sm font-medium text-gray-700 mb-1">
+                Tax Already Paid by Employer (Annual, JOD)
+              </label>
+              <input
+                type="number"
+                id="partner1TaxPaid"
+                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="Enter tax paid"
+                min="0"
+                step="0.01"
+              >
+              <p class="mt-1 text-sm text-red-500 hidden" id="error-partner1TaxPaid"></p>
+            </div>
+            
+            <div class="space-y-4 pt-4 border-t border-gray-200">
+              <h4 class="font-medium text-gray-800">Deductions (Partner 1)</h4>
+              
+              <div class="space-y-3">
+                <div>
+                  <label for="partner1HealthAmount" class="block text-sm font-medium text-gray-700 mb-1">
+                    Health Expenses (Max 1,000 JOD)
+                  </label>
+                  <input
+                    type="number"
+                    id="partner1HealthAmount"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="0 - 1,000"
+                    min="0"
+                    max="1000"
+                    step="0.01"
+                  >
+                  <p class="mt-1 text-sm text-red-500 hidden" id="error-partner1Health"></p>
+                </div>
+                
+                <div>
+                  <label for="partner1RentAmount" class="block text-sm font-medium text-gray-700 mb-1">
+                    Apartment Rent (Max 1,000 JOD)
+                  </label>
+                  <input
+                    type="number"
+                    id="partner1RentAmount"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="0 - 1,000"
+                    min="0"
+                    max="1000"
+                    step="0.01"
+                  >
+                  <p class="mt-1 text-sm text-red-500 hidden" id="error-partner1Rent"></p>
+                </div>
+                
+                <div>
+                  <label for="partner1LoanInterest" class="block text-sm font-medium text-gray-700 mb-1">
+                    Loan Interest (Max 1,000 JOD)
+                  </label>
+                  <input
+                    type="number"
+                    id="partner1LoanInterest"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="0 - 1,000"
+                    min="0"
+                    max="1000"
+                    step="0.01"
+                  >
+                  <p class="mt-1 text-sm text-red-500 hidden" id="error-partner1Loan"></p>
+                </div>
+                
+                <div>
+                  <label for="partner1ChildrenAmount" class="block text-sm font-medium text-gray-700 mb-1">
+                    Children Deduction (Max 3,000 JOD)
+                  </label>
+                  <input
+                    type="number"
+                    id="partner1ChildrenAmount"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="0 - 3,000"
+                    min="0"
+                    max="3000"
+                    step="0.01"
+                  >
+                  <p class="mt-1 text-sm text-red-500 hidden" id="error-partner1Children"></p>
+                  <p class="mt-1 text-xs text-gray-500">
+                    Maximum 3,000 JOD total for all children (1,000 JOD per child)
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Partner 2 Inputs (initially hidden) -->
+          <div class="space-y-6 hidden" id="partner2Section">
+            <div class="text-center bg-amber-50 py-3 rounded-lg">
+              <h3 class="text-xl font-bold text-amber-800">Partner 2</h3>
+            </div>
+            
+            <div>
+              <label for="partner2Income" class="block text-sm font-medium text-gray-700 mb-1">
+                Annual Gross Income (JOD)
+              </label>
+              <input
+                type="number"
+                id="partner2Income"
+                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="Enter annual income"
+                min="0"
+                step="0.01"
+              >
+              <p class="mt-1 text-sm text-red-500 hidden" id="error-partner2Income"></p>
+            </div>
+            
+            <div>
+              <label for="partner2TaxPaid" class="block text-sm font-medium text-gray-700 mb-1">
+                Tax Already Paid by Employer (Annual, JOD)
+              </label>
+              <input
+                type="number"
+                id="partner2TaxPaid"
+                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="Enter tax paid"
+                min="0"
+                step="0.01"
+              >
+              <p class="mt-1 text-sm text-red-500 hidden" id="error-partner2TaxPaid"></p>
+            </div>
+            
+            <div class="space-y-4 pt-4 border-t border-gray-200">
+              <h4 class="font-medium text-gray-800">Deductions (Partner 2)</h4>
+              
+              <div class="space-y-3">
+                <div>
+                  <label for="partner2HealthAmount" class="block text-sm font-medium text-gray-700 mb-1">
+                    Health Expenses (Max 1,000 JOD)
+                  </label>
+                  <input
+                    type="number"
+                    id="partner2HealthAmount"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="0 - 1,000"
+                    min="0"
+                    max="1000"
+                    step="0.01"
+                  >
+                  <p class="mt-1 text-sm text-red-500 hidden" id="error-partner2Health"></p>
+                </div>
+                
+                <div>
+                  <label for="partner2RentAmount" class="block text-sm font-medium text-gray-700 mb-1">
+                    Apartment Rent (Max 1,000 JOD)
+                  </label>
+                  <input
+                    type="number"
+                    id="partner2RentAmount"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="0 - 1,000"
+                    min="0"
+                    max="1000"
+                    step="0.01"
+                  >
+                  <p class="mt-1 text-sm text-red-500 hidden" id="error-partner2Rent"></p>
+                </div>
+                
+                <div>
+                  <label for="partner2LoanInterest" class="block text-sm font-medium text-gray-700 mb-1">
+                    Loan Interest (Max 1,000 JOD)
+                  </label>
+                  <input
+                    type="number"
+                    id="partner2LoanInterest"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="0 - 1,000"
+                    min="0"
+                    max="1000"
+                    step="0.01"
+                  >
+                  <p class="mt-1 text-sm text-red-500 hidden" id="error-partner2Loan"></p>
+                </div>
+                
+                <div>
+                  <label for="partner2ChildrenAmount" class="block text-sm font-medium text-gray-700 mb-1">
+                    Children Deduction (Max 3,000 JOD)
+                  </label>
+                  <input
+                    type="number"
+                    id="partner2ChildrenAmount"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="0 - 3,000"
+                    min="0"
+                    max="3000"
+                    step="0.01"
+                  >
+                  <p class="mt-1 text-sm text-red-500 hidden" id="error-partner2Children"></p>
+                  <p class="mt-1 text-xs text-gray-500">
+                    Maximum 3,000 JOD total for all children (1,000 JOD per child)
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Calculate Button -->
+        <div class="mt-10 text-center">
+          <button
+            id="calculateBtn"
+            class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-12 rounded-xl text-lg shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Calculate Tax Results
+          </button>
+          <p class="mt-3 text-sm text-gray-500 max-w-2xl mx-auto" id="calculateHelper">
+            Calculate your tax liability as a single filer
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Results Section (initially hidden) -->
+    <div id="resultsSection" class="space-y-12 mb-16 hidden">
+      <!-- Individual Filing Results -->
+      <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div class="bg-gradient-to-r from-purple-600 to-indigo-700 text-white py-5 px-6">
+          <h2 class="text-2xl font-bold">Individual Filing Results</h2>
+        </div>
+        
+        <div class="p-6 md:p-8">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8" id="individualResults">
+            <!-- Results will be inserted here by JavaScript -->
+          </div>
+        </div>
+      </div>
+      
+      <!-- Combined Filing Results -->
+      <div class="bg-white rounded-2xl shadow-xl overflow-hidden hidden" id="combinedSection">
+        <div class="bg-gradient-to-r from-amber-500 to-orange-600 text-white py-5 px-6">
+          <h2 class="text-2xl font-bold">Combined Filing Results</h2>
+        </div>
+        
+        <div class="p-6 md:p-8">
+          <div class="max-w-3xl mx-auto" id="combinedResults">
+            <!-- Results will be inserted here by JavaScript -->
+          </div>
+        </div>
+      </div>
+      
+      <!-- Comparison Section -->
+      <div class="bg-gradient-to-br from-indigo-900 to-purple-900 rounded-2xl shadow-xl p-6 md:p-8 text-white hidden" id="comparisonSection">
+        <h2 class="text-3xl font-bold text-center mb-8">Filing Option Comparison</h2>
+        <div class="max-w-4xl mx-auto" id="comparisonContent">
+          <!-- Comparison will be inserted here by JavaScript -->
+        </div>
+      </div>
+      
+      <!-- Disclaimer -->
+      <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-r-xl max-w-4xl mx-auto">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm text-yellow-700">
+              <strong>Disclaimer:</strong> This calculator is provided for informational purposes only by AMCO to help employees decide whether to file individually or combined. 
+              Attract Company and AMCO assume no responsibility for the accuracy of the calculations or tax decisions made based on this tool. 
+              For official tax assessment, please consult the Jordanian Income and Sales Tax Department (ISTD) or a qualified tax professional.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="text-center py-8 text-gray-600 border-t border-gray-200">
+      <p class="font-medium">AMCO Tax Advisor - Jordan Income Tax Calculator</p>
+      <p class="mt-1 text-sm">developed by AMCO IT Department</p>
+      <p class="mt-1 text-xs">© <span id="currentYear"></span> | For informational purposes only</p>
+      <p class="mt-1 text-xs">Compliant with Jordanian Income Tax Law No. 34 of 2014 and its amendments</p>
+    </footer>
+  </div>
+
+  <script>
+    // Set current year
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    
+    // DOM Elements
+    const partner2Toggle = document.getElementById('partner2Toggle');
+    const partner2Section = document.getElementById('partner2Section');
+    const calculateBtn = document.getElementById('calculateBtn');
+    const resultsSection = document.getElementById('resultsSection');
+    const combinedSection = document.getElementById('combinedSection');
+    const comparisonSection = document.getElementById('comparisonSection');
+    const individualResults = document.getElementById('individualResults');
+    const combinedResults = document.getElementById('combinedResults');
+    const comparisonContent = document.getElementById('comparisonContent');
+    const calculateHelper = document.getElementById('calculateHelper');
+    
+    // Toggle Partner 2 section
+    partner2Toggle.addEventListener('change', function() {
+      if (this.checked) {
+        partner2Section.classList.remove('hidden');
+        calculateHelper.textContent = "Compare individual vs combined filing to find the most advantageous option";
+      } else {
+        partner2Section.classList.add('hidden');
+        calculateHelper.textContent = "Calculate your tax liability as a single filer";
+        // Clear partner 2 inputs
+        document.getElementById('partner2Income').value = '';
+        document.getElementById('partner2TaxPaid').value = '';
+        document.getElementById('partner2HealthAmount').value = '';
+        document.getElementById('partner2RentAmount').value = '';
+        document.getElementById('partner2LoanInterest').value = '';
+        document.getElementById('partner2ChildrenAmount').value = '';
+        // Hide results that require partner 2
+        combinedSection.classList.add('hidden');
+        comparisonSection.classList.add('hidden');
+      }
+    });
+    
+    // Format currency
+    function formatCurrency(amount) {
+      return new Intl.NumberFormat('en-JO', {
+        style: 'decimal',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(amount);
+    }
+    
+    // Parse amount with max limit
+    function parseAmount(value, max) {
+      if (!value) return 0;
+      const num = parseFloat(value);
+      return isNaN(num) ? 0 : Math.min(Math.max(0, num), max);
+    }
+    
+    // Calculate tax using progressive brackets
+    function calculateTax(taxableIncome) {
+      const brackets = [
+        { min: 0, max: 5000, rate: 0.05, label: "1 - 5,000 JOD" },
+        { min: 5000, max: 10000, rate: 0.10, label: "5,001 - 10,000 JOD" },
+        { min: 10000, max: 15000, rate: 0.15, label: "10,001 - 15,000 JOD" },
+        { min: 15000, max: 20000, rate: 0.20, label: "15,001 - 20,000 JOD" },
+        { min: 20000, max: Infinity, rate: 0.25, label: "20,001+ JOD" }
+      ];
+      
+      let remaining = taxableIncome;
+      let totalTax = 0;
+      const breakdown = [];
+      
+      for (const bracket of brackets) {
+        if (remaining <= 0) break;
+        
+        const amountInBracket = bracket.max === Infinity 
+          ? remaining 
+          : Math.min(remaining, bracket.max - bracket.min);
+          
+        const taxInBracket = amountInBracket * bracket.rate;
+        totalTax += taxInBracket;
+        
+        if (amountInBracket > 0) {
+          breakdown.push({
+            range: bracket.label,
+            amount: amountInBracket,
+            rate: bracket.rate,
+            tax: taxInBracket
+          });
+        }
+        
+        remaining -= amountInBracket;
+      }
+      
+      return { totalTax, breakdown };
+    }
+    
+    // Validate inputs
+    function validateInputs(isPartner2Present) {
+      const errors = {};
+      
+      // Partner 1 validation
+      const income1 = parseFloat(document.getElementById('partner1Income').value);
+      const tax1 = parseFloat(document.getElementById('partner1TaxPaid').value);
+      const health1 = parseFloat(document.getElementById('partner1HealthAmount').value);
+      const rent1 = parseFloat(document.getElementById('partner1RentAmount').value);
+      const loan1 = parseFloat(document.getElementById('partner1LoanInterest').value);
+      const children1 = parseFloat(document.getElementById('partner1ChildrenAmount').value);
+      
+      if (isNaN(income1) || income1 < 0) {
+        errors.partner1Income = "Please enter a valid non-negative number";
+      }
+      
+      if (isNaN(tax1) || tax1 < 0) {
+        errors.partner1TaxPaid = "Please enter a valid non-negative number";
+      }
+      
+      if (document.getElementById('partner1HealthAmount').value && (!isNaN(health1) && (health1 < 0 || health1 > 1000))) {
+        errors.partner1Health = "Health expense must be between 0 and 1,000 JOD";
+      }
+      
+      if (document.getElementById('partner1RentAmount').value && (!isNaN(rent1) && (rent1 < 0 || rent1 > 1000))) {
+        errors.partner1Rent = "Rent expense must be between 0 and 1,000 JOD";
+      }
+      
+      if (document.getElementById('partner1LoanInterest').value && (!isNaN(loan1) && (loan1 < 0 || loan1 > 1000))) {
+        errors.partner1Loan = "Loan interest must be between 0 and 1,000 JOD";
+      }
+      
+      if (document.getElementById('partner1ChildrenAmount').value && (!isNaN(children1) && (children1 < 0 || children1 > 3000))) {
+        errors.partner1Children = "Children deduction must be between 0 and 3,000 JOD";
+      }
+      
+      // Partner 2 validation
+      if (isPartner2Present) {
+        const income2 = parseFloat(document.getElementById('partner2Income').value);
+        const tax2 = parseFloat(document.getElementById('partner2TaxPaid').value);
+        const health2 = parseFloat(document.getElementById('partner2HealthAmount').value);
+        const rent2 = parseFloat(document.getElementById('partner2RentAmount').value);
+        const loan2 = parseFloat(document.getElementById('partner2LoanInterest').value);
+        const children2 = parseFloat(document.getElementById('partner2ChildrenAmount').value);
+        const totalChildren = (children1 || 0) + (children2 || 0);
+        
+        if (isNaN(income2) || income2 < 0) {
+          errors.partner2Income = "Please enter a valid non-negative number";
+        }
+        
+        if (isNaN(tax2) || tax2 < 0) {
+          errors.partner2TaxPaid = "Please enter a valid non-negative number";
+        }
+        
+        if (document.getElementById('partner2HealthAmount').value && (!isNaN(health2) && (health2 < 0 || health2 > 1000))) {
+          errors.partner2Health = "Health expense must be between 0 and 1,000 JOD";
+        }
+        
+        if (document.getElementById('partner2RentAmount').value && (!isNaN(rent2) && (rent2 < 0 || rent2 > 1000))) {
+          errors.partner2Rent = "Rent expense must be between 0 and 1,000 JOD";
+        }
+        
+        if (document.getElementById('partner2LoanInterest').value && (!isNaN(loan2) && (loan2 < 0 || loan2 > 1000))) {
+          errors.partner2Loan = "Loan interest must be between 0 and 1,000 JOD";
+        }
+        
+        if (document.getElementById('partner2ChildrenAmount').value && (!isNaN(children2) && (children2 < 0 || children2 > 3000))) {
+          errors.partner2Children = "Children deduction must be between 0 and 3,000 JOD";
+        }
+        
+        if (totalChildren > 3000) {
+          errors.totalChildren = "Total children deduction cannot exceed 3,000 JOD";
+        }
+      }
+      
+      // Display errors
+      displayErrors(errors);
+      
+      return Object.keys(errors).length === 0;
+    }
+    
+    // Display validation errors
+    function displayErrors(errors) {
+      // Clear all errors first
+      document.querySelectorAll('[id^="error-"]').forEach(el => {
+        el.textContent = '';
+        el.classList.add('hidden');
+      });
+      
+      // Display specific errors
+      for (const [field, message] of Object.entries(errors)) {
+        const errorElement = document.getElementById(`error-${field}`);
+        if (errorElement) {
+          errorElement.textContent = message;
+          errorElement.classList.remove('hidden');
+        }
+      }
+    }
+    
+    // Calculate results
+    calculateBtn.addEventListener('click', function() {
+      const isPartner2Present = partner2Toggle.checked;
+      
+      if (!validateInputs(isPartner2Present)) {
+        resultsSection.classList.add('hidden');
+        return;
+      }
+      
+      // Get Partner 1 values
+      const income1 = parseFloat(document.getElementById('partner1Income').value || 0);
+      const taxPaid1 = parseFloat(document.getElementById('partner1TaxPaid').value || 0);
+      const health1 = parseAmount(document.getElementById('partner1HealthAmount').value, 1000);
+      const rent1 = parseAmount(document.getElementById('partner1RentAmount').value, 1000);
+      const loan1 = parseAmount(document.getElementById('partner1LoanInterest').value, 1000);
+      const children1 = parseAmount(document.getElementById('partner1ChildrenAmount').value, 3000);
+      
+      // Calculate Partner 1 taxable income
+      let taxable1 = income1 - 9000 - children1 - health1 - rent1 - loan1;
+      taxable1 = Math.max(0, taxable1);
+      const { totalTax: tax1, breakdown: breakdown1 } = calculateTax(taxable1);
+      const net1 = tax1 - taxPaid1;
+      
+      // Partner 2 calculations (if present)
+      let partner2Result = null;
+      if (isPartner2Present) {
+        const income2 = parseFloat(document.getElementById('partner2Income').value || 0);
+        const taxPaid2 = parseFloat(document.getElementById('partner2TaxPaid').value || 0);
+        const health2 = parseAmount(document.getElementById('partner2HealthAmount').value, 1000);
+        const rent2 = parseAmount(document.getElementById('partner2RentAmount').value, 1000);
+        const loan2 = parseAmount(document.getElementById('partner2LoanInterest').value, 1000);
+        const children2 = parseAmount(document.getElementById('partner2ChildrenAmount').value, 3000);
+        
+        let taxable2 = income2 - 9000 - children2 - health2 - rent2 - loan2;
+        taxable2 = Math.max(0, taxable2);
+        const { totalTax: tax2, breakdown: breakdown2 } = calculateTax(taxable2);
+        const net2 = tax2 - taxPaid2;
+        
+        partner2Result = {
+          taxableIncome: taxable2,
+          totalTax: tax2,
+          taxPaid: taxPaid2,
+          net: net2,
+          breakdown: breakdown2,
+          deductions: {
+            children: children2,
+            health: health2,
+            rent: rent2,
+            loan: loan2
+          }
+        };
+      }
+      
+      // Render individual results
+      renderIndividualResults({
+        partner1: {
+          taxableIncome: taxable1,
+          totalTax: tax1,
+          taxPaid: taxPaid1,
+          net: net1,
+          breakdown: breakdown1,
+          deductions: {
+            children: children1,
+            health: health1,
+            rent: rent1,
+            loan: loan1
+          }
+        },
+        partner2: partner2Result
+      });
+      
+      // Combined filing (only if partner 2 is present)
+      if (isPartner2Present) {
+        const income2 = parseFloat(document.getElementById('partner2Income').value || 0);
+        const taxPaid2 = parseFloat(document.getElementById('partner2TaxPaid').value || 0);
+        const health2 = parseAmount(document.getElementById('partner2HealthAmount').value, 1000);
+        const rent2 = parseAmount(document.getElementById('partner2RentAmount').value, 1000);
+        const loan2 = parseAmount(document.getElementById('partner2LoanInterest').value, 1000);
+        const children2 = parseAmount(document.getElementById('partner2ChildrenAmount').value, 3000);
+        
+        // Cap total children deduction at 3,000 JOD
+        const totalChildrenDeduction = Math.min(children1 + children2, 3000);
+        
+        let combinedTaxable = (income1 + income2) - 18000 
+                              - totalChildrenDeduction
+                              - (health1 + health2)
+                              - (rent1 + rent2)
+                              - (loan1 + loan2);
+        
+        combinedTaxable = Math.max(0, combinedTaxable);
+        const { totalTax: combinedTax, breakdown: combinedBreakdown } = calculateTax(combinedTaxable);
+        const totalTaxPaid = taxPaid1 + taxPaid2;
+        const netCombined = combinedTax - totalTaxPaid;
+        
+        const combinedResult = {
+          taxableIncome: combinedTaxable,
+          totalTax: combinedTax,
+          totalTaxPaid: totalTaxPaid,
+          netResult: netCombined,
+          breakdown: combinedBreakdown,
+          deductions: {
+            children: totalChildrenDeduction,
+            health: health1 + health2,
+            rent: rent1 + rent2,
+            loan: loan1 + loan2
+          }
+        };
+        
+        renderCombinedResults(combinedResult);
+        
+        // Comparison
+        const totalIndividualNet = (tax1 - taxPaid1) + (partner2Result.totalTax - taxPaid2);
+        const savings = Math.abs(totalIndividualNet - netCombined);
+        const comparison = {
+          individualBetter: totalIndividualNet < netCombined,
+          savings: savings,
+          recommended: totalIndividualNet < netCombined ? "individual" : "combined",
+          totalIndividualNet: totalIndividualNet,
+          totalCombinedNet: netCombined
+        };
+        
+        renderComparison(comparison, {
+          partner1: { totalTax: tax1, taxPaid: taxPaid1 },
+          partner2: partner2Result,
+          combined: combinedResult
+        });
+        
+        combinedSection.classList.remove('hidden');
+        comparisonSection.classList.remove('hidden');
+      } else {
+        combinedSection.classList.add('hidden');
+        comparisonSection.classList.add('hidden');
+      }
+      
+      resultsSection.classList.remove('hidden');
+      
+      // Scroll to results
+      resultsSection.scrollIntoView({ behavior: 'smooth' });
+    });
+    
+    // Render individual results
+    function renderIndividualResults(results) {
+      let html = `
+        <!-- Partner 1 Results -->
+        <div class="border rounded-xl p-6 bg-gray-50">
+          <div class="text-center mb-5">
+            <h3 class="text-xl font-bold text-indigo-800">Partner 1</h3>
+            <div class="mt-1 text-sm text-gray-600">
+              Taxable Income: ${formatCurrency(results.partner1.taxableIncome)} JOD
+            </div>
+          </div>
+          
+          <div class="mb-6">
+            <h4 class="font-semibold text-gray-700 mb-3">Deductions Applied:</h4>
+            <div class="space-y-1 text-sm">
+              <div>• Personal Exemption: 9,000 JOD</div>
+              <div>• Children Deduction: ${formatCurrency(results.partner1.deductions.children)} JOD</div>
+              <div>• Health Expenses: ${formatCurrency(results.partner1.deductions.health)} JOD</div>
+              <div>• Apartment Rent: ${formatCurrency(results.partner1.deductions.rent)} JOD</div>
+              <div>• Loan Interest: ${formatCurrency(results.partner1.deductions.loan)} JOD</div>
+            </div>
+          </div>
+          
+          <div class="mb-6">
+            <h4 class="font-semibold text-gray-700 mb-3">Tax Calculation:</h4>
+            <div class="space-y-2">
+              ${results.partner1.breakdown.map(bracket => `
+                <div class="flex justify-between text-sm">
+                  <span class="text-gray-600">${bracket.range} @ ${Math.round(bracket.rate * 100)}%:</span>
+                  <span class="font-medium">${formatCurrency(bracket.tax)} JOD</span>
+                </div>
+              `).join('')}
+              <div class="border-t border-gray-200 pt-2 mt-2 flex justify-between font-bold">
+                <span>Total Tax:</span>
+                <span>${formatCurrency(results.partner1.totalTax)} JOD</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-white rounded-lg p-4 border border-gray-200">
+            <div class="flex justify-between mb-2">
+              <span class="text-gray-600">Tax Already Paid:</span>
+              <span class="font-medium text-green-700">${formatCurrency(results.partner1.taxPaid)} JOD</span>
+            </div>
+            <div class="flex justify-between text-lg font-bold pt-2 border-t border-gray-200">
+              <span>Net Result:</span>
+              <span class="${results.partner1.net >= 0 ? 'text-red-600' : 'text-green-600'}">
+                ${formatCurrency(Math.abs(results.partner1.net))} JOD
+              </span>
+            </div>
+            <div class="mt-2 text-center text-sm font-medium">
+              ${results.partner1.net >= 0 ? '⚠️ Tax Payable' : '✓ Tax Refundable'}
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Add Partner 2 results if present
+      if (results.partner2) {
+        html += `
+          <!-- Partner 2 Results -->
+          <div class="border rounded-xl p-6 bg-gray-50">
+            <div class="text-center mb-5">
+              <h3 class="text-xl font-bold text-amber-800">Partner 2</h3>
+              <div class="mt-1 text-sm text-gray-600">
+                Taxable Income: ${formatCurrency(results.partner2.taxableIncome)} JOD
+              </div>
+            </div>
+            
+            <div class="mb-6">
+              <h4 class="font-semibold text-gray-700 mb-3">Deductions Applied:</h4>
+              <div class="space-y-1 text-sm">
+                <div>• Personal Exemption: 9,000 JOD</div>
+                <div>• Children Deduction: ${formatCurrency(results.partner2.deductions.children)} JOD</div>
+                <div>• Health Expenses: ${formatCurrency(results.partner2.deductions.health)} JOD</div>
+                <div>• Apartment Rent: ${formatCurrency(results.partner2.deductions.rent)} JOD</div>
+                <div>• Loan Interest: ${formatCurrency(results.partner2.deductions.loan)} JOD</div>
+              </div>
+            </div>
+            
+            <div class="mb-6">
+              <h4 class="font-semibold text-gray-700 mb-3">Tax Calculation:</h4>
+              <div class="space-y-2">
+                ${results.partner2.breakdown.map(bracket => `
+                  <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">${bracket.range} @ ${Math.round(bracket.rate * 100)}%:</span>
+                    <span class="font-medium">${formatCurrency(bracket.tax)} JOD</span>
+                  </div>
+                `).join('')}
+                <div class="border-t border-gray-200 pt-2 mt-2 flex justify-between font-bold">
+                  <span>Total Tax:</span>
+                  <span>${formatCurrency(results.partner2.totalTax)} JOD</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-white rounded-lg p-4 border border-gray-200">
+              <div class="flex justify-between mb-2">
+                <span class="text-gray-600">Tax Already Paid:</span>
+                <span class="font-medium text-green-700">${formatCurrency(results.partner2.taxPaid)} JOD</span>
+              </div>
+              <div class="flex justify-between text-lg font-bold pt-2 border-t border-gray-200">
+                <span>Net Result:</span>
+                <span class="${results.partner2.net >= 0 ? 'text-red-600' : 'text-green-600'}">
+                  ${formatCurrency(Math.abs(results.partner2.net))} JOD
+                </span>
+              </div>
+              <div class="mt-2 text-center text-sm font-medium">
+                ${results.partner2.net >= 0 ? '⚠️ Tax Payable' : '✓ Tax Refundable'}
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      
+      individualResults.innerHTML = html;
+    }
+    
+    // Render combined results
+    function renderCombinedResults(result) {
+      combinedResults.innerHTML = `
+        <div class="text-center mb-6">
+          <h3 class="text-xl font-bold text-gray-800">Combined Taxable Income</h3>
+          <div class="mt-2 text-3xl font-bold text-indigo-700">
+            ${formatCurrency(result.taxableIncome)} JOD
+          </div>
+          <div class="mt-1 text-sm text-gray-600">
+            After all applicable deductions
+          </div>
+        </div>
+        
+        <div class="mb-6">
+          <h4 class="font-semibold text-gray-700 mb-3 text-center">Deductions Applied:</h4>
+          <div class="space-y-1 text-sm max-w-md mx-auto">
+            <div>• Combined Personal Exemption: 18,000 JOD</div>
+            <div>• Children Deduction: ${formatCurrency(result.deductions.children)} JOD</div>
+            <div>• Health Expenses: ${formatCurrency(result.deductions.health)} JOD</div>
+            <div>• Apartment Rent: ${formatCurrency(result.deductions.rent)} JOD</div>
+            <div>• Loan Interest: ${formatCurrency(result.deductions.loan)} JOD</div>
+          </div>
+        </div>
+        
+        <div class="mb-8">
+          <h4 class="font-semibold text-gray-700 mb-3 text-center">Tax Calculation by Bracket:</h4>
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tax Bracket</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount (JOD)</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tax Rate</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tax (JOD)</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                ${result.breakdown.map(bracket => `
+                  <tr>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">${bracket.range}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">${formatCurrency(bracket.amount)}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">${Math.round(bracket.rate * 100)}%</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm font-bold text-indigo-700">${formatCurrency(bracket.tax)}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+              <tfoot>
+                <tr class="bg-amber-50">
+                  <td colspan="3" class="px-4 py-3 text-right font-bold text-gray-800">Total Tax:</td>
+                  <td class="px-4 py-3 font-bold text-orange-800">${formatCurrency(result.totalTax)} JOD</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-xl p-6 border border-gray-200 max-w-2xl mx-auto">
+          <div class="flex justify-between mb-3">
+            <span class="text-gray-600 font-medium">Total Tax Already Paid:</span>
+            <span class="font-bold text-green-700">${formatCurrency(result.totalTaxPaid)} JOD</span>
+          </div>
+          <div class="flex justify-between text-2xl font-bold pt-3 border-t border-gray-200">
+            <span>Net Result:</span>
+            <span class="${result.netResult >= 0 ? 'text-red-600' : 'text-green-600'}">
+              ${formatCurrency(Math.abs(result.netResult))} JOD
+            </span>
+          </div>
+          <div class="mt-3 text-center text-lg font-medium italic">
+            ${result.netResult >= 0 ? '⚠️ Additional tax payable' : '✓ Tax refund eligible'}
+          </div>
+        </div>
+      `;
+    }
+    
+    // Render comparison
+    function renderComparison(comparison, data) {
+      const individualTotalTax = data.partner1.totalTax + data.partner2.totalTax;
+      const individualTotalPaid = data.partner1.taxPaid + data.partner2.taxPaid;
+      
+      comparisonContent.innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+          <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-indigo-800/50">
+            <div class="text-center mb-4">
+              <div class="text-lg font-medium mb-1">Individual Filing</div>
+              <div class="${comparison.totalIndividualNet >= 0 ? 'text-red-300' : 'text-green-300'} text-3xl font-bold">
+                ${formatCurrency(Math.abs(comparison.totalIndividualNet))} JOD
+              </div>
+              <div class="mt-1 text-sm">
+                ${comparison.totalIndividualNet >= 0 ? 'Total Payable' : 'Total Refundable'}
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="flex justify-between">
+                <span>Total Tax Calculated:</span>
+                <span>${formatCurrency(individualTotalTax)} JOD</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Total Tax Paid:</span>
+                <span>${formatCurrency(individualTotalPaid)} JOD</span>
+              </div>
+              <div class="flex justify-between pt-2 border-t border-indigo-700/50">
+                <span class="font-bold">Net Result:</span>
+                <span class="${comparison.totalIndividualNet >= 0 ? 'text-red-300' : 'text-green-300'} font-bold text-xl">
+                  ${formatCurrency(Math.abs(comparison.totalIndividualNet))} JOD
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-amber-800/50">
+            <div class="text-center mb-4">
+              <div class="text-lg font-medium mb-1">Combined Filing</div>
+              <div class="${comparison.totalCombinedNet >= 0 ? 'text-red-300' : 'text-green-300'} text-3xl font-bold">
+                ${formatCurrency(Math.abs(comparison.totalCombinedNet))} JOD
+              </div>
+              <div class="mt-1 text-sm">
+                ${comparison.totalCombinedNet >= 0 ? 'Total Payable' : 'Total Refundable'}
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="flex justify-between">
+                <span>Total Tax Calculated:</span>
+                <span>${formatCurrency(data.combined.totalTax)} JOD</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Total Tax Paid:</span>
+                <span>${formatCurrency(data.combined.totalTaxPaid)} JOD</span>
+              </div>
+              <div class="flex justify-between pt-2 border-t border-amber-700/50">
+                <span class="font-bold">Net Result:</span>
+                <span class="${comparison.totalCombinedNet >= 0 ? 'text-red-300' : 'text-green-300'} font-bold text-xl">
+                  ${formatCurrency(Math.abs(comparison.totalCombinedNet))} JOD
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="rounded-xl p-6 text-center ${comparison.individualBetter ? 'bg-gradient-to-r from-purple-500 to-indigo-600' : 'bg-gradient-to-r from-yellow-400 to-yellow-600'}">
+          <h3 class="text-2xl font-bold text-white mb-3">
+            ${comparison.individualBetter 
+              ? '✓ Individual Filing is More Advantageous' 
+              : '✓ Combined Filing is More Advantageous'}
+          </h3>
+          <p class="text-xl font-bold text-white mb-4">
+            Potential Savings: ${formatCurrency(comparison.savings)} JOD
+          </p>
+          <p class="text-lg max-w-3xl mx-auto text-white/90">
+            ${comparison.individualBetter 
+              ? 'Filing individually would result in lower tax liability or higher refund compared to combined filing.'
+              : 'Filing combined would result in lower tax liability or higher refund compared to individual filing.'}
+          </p>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>
+
