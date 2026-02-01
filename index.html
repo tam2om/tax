@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AMCO Tax Advisor</title>
+  <title>Tax Advisor | مستشار الضرائب</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -17,23 +17,39 @@
       }
     }
   </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #dbeafe 0%, #c7d2fe 100%);
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700;800&display=swap');
+    
+    :root {
+      --font-en: 'Inter', sans-serif;
+      --font-ar: 'Tajawal', sans-serif;
     }
+    
+    body {
+      font-family: var(--font-en);
+      background: linear-gradient(135deg, #dbeafe 0%, #c7d2fe 100%);
+      transition: all 0.3s ease;
+    }
+    
+    body[dir="rtl"] {
+      font-family: var(--font-ar);
+      text-align: right;
+    }
+    
     .switch {
       position: relative;
       display: inline-block;
       width: 52px;
       height: 28px;
     }
+    
     .switch input {
       opacity: 0;
       width: 0;
       height: 0;
     }
+    
     .slider {
       position: absolute;
       cursor: pointer;
@@ -45,6 +61,7 @@
       transition: .4s;
       border-radius: 34px;
     }
+    
     .slider:before {
       position: absolute;
       content: "";
@@ -56,33 +73,163 @@
       transition: .4s;
       border-radius: 50%;
     }
+    
     input:checked + .slider {
       background-color: #4f46e5;
     }
+    
     input:checked + .slider:before {
       transform: translateX(24px);
+    }
+    
+    [dir="rtl"] .slider:before {
+      right: 4px;
+      left: auto;
+    }
+    
+    [dir="rtl"] input:checked + .slider:before {
+      transform: translateX(-24px);
+    }
+    
+    .lang-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      background: white;
+      border-radius: 50px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      overflow: hidden;
+    }
+    
+    [dir="rtl"] .lang-toggle {
+      right: auto;
+      left: 20px;
+    }
+    
+    .lang-btn {
+      padding: 8px 16px;
+      border: none;
+      background: #e0e7ff;
+      color: #4f46e5;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: var(--font-en);
+    }
+    
+    body[dir="rtl"] .lang-btn {
+      font-family: var(--font-ar);
+    }
+    
+    .lang-btn.active {
+      background: #4f46e5;
+      color: white;
+    }
+    
+    .lang-btn:hover:not(.active) {
+      background: #c7d2fe;
+    }
+    
+    [dir="rtl"] .text-left {
+      text-align: right !important;
+    }
+    
+    [dir="rtl"] .text-right {
+      text-align: left !important;
+    }
+    
+    [dir="rtl"] .ml-3 {
+      margin-left: 0 !important;
+      margin-right: 0.75rem !important;
+    }
+    
+    [dir="rtl"] .mr-3 {
+      margin-right: 0 !important;
+      margin-left: 0.75rem !important;
+    }
+    
+    [dir="rtl"] .pl-4 {
+      padding-left: 0 !important;
+      padding-right: 1rem !important;
+    }
+    
+    [dir="rtl"] .pr-4 {
+      padding-right: 0 !important;
+      padding-left: 1rem !important;
+    }
+    
+    [dir="rtl"] .float-left {
+      float: right !important;
+    }
+    
+    [dir="rtl"] .float-right {
+      float: left !important;
+    }
+    
+    [dir="rtl"] .border-l-4 {
+      border-left-width: 0 !important;
+      border-right-width: 4px !important;
+    }
+    
+    [dir="rtl"] .rounded-r-xl {
+      border-top-left-radius: 1.5rem !important;
+      border-bottom-left-radius: 1.5rem !important;
+      border-top-right-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
+    }
+    
+    [dir="rtl"] .rounded-l-xl {
+      border-top-right-radius: 1.5rem !important;
+      border-bottom-right-radius: 1.5rem !important;
+      border-top-left-radius: 0 !important;
+      border-bottom-left-radius: 0 !important;
+    }
+    
+    table th, table td {
+      transition: all 0.2s ease;
+    }
+    
+    [dir="rtl"] table th, [dir="rtl"] table td {
+      text-align: right !important;
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.5s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-6 px-4 sm:px-6 lg:px-8">
+  <!-- Language Toggle -->
+  <div class="lang-toggle">
+    <button id="lang-en" class="lang-btn active">EN</button>
+    <button id="lang-ar" class="lang-btn">AR</button>
+  </div>
+
   <div class="max-w-7xl mx-auto">
     <!-- Header -->
-    <header class="text-center mb-10">
-      <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-3">AMCO Tax Advisor</h1>
-      <p class="text-xl text-indigo-700 max-w-3xl mx-auto">
+    <header class="text-center mb-10 fade-in">
+      <h1 id="header-title" class="text-4xl md:text-5xl font-bold text-gray-800 mb-3">Tax Advisor</h1>
+      <p id="header-subtitle" class="text-xl text-indigo-700 max-w-3xl mx-auto">
         Jordan Income Tax Calculator - Individual & Combined Filing Comparison
       </p>
-      <div class="mt-3 text-gray-600">
+      <div id="header-law" class="mt-3 text-gray-600">
         Compliant with Jordanian Income Tax Law No. 34 of 2014
       </div>
     </header>
     
     <!-- Input Section -->
-    <div class="bg-white rounded-2xl shadow-xl overflow-hidden mb-12">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden mb-12 fade-in">
       <div class="bg-indigo-700 text-white py-4 px-6 flex flex-col sm:flex-row sm:justify-between sm:items-center">
-        <h2 class="text-2xl font-bold">Income & Deductions</h2>
+        <h2 id="input-section-title" class="text-2xl font-bold">Income & Deductions</h2>
         <label class="flex items-center mt-3 sm:mt-0 cursor-pointer">
-          <span class="mr-3 text-sm">Add Partner 2</span>
+          <span id="partner2-toggle-label" class="mr-3 text-sm">Add Partner 2</span>
           <label class="switch">
             <input type="checkbox" id="partner2Toggle">
             <span class="slider"></span>
@@ -95,11 +242,11 @@
           <!-- Partner 1 Inputs -->
           <div class="space-y-6">
             <div class="text-center bg-indigo-50 py-3 rounded-lg">
-              <h3 class="text-xl font-bold text-indigo-800">Partner 1</h3>
+              <h3 id="partner1-title" class="text-xl font-bold text-indigo-800">Partner 1</h3>
             </div>
             
             <div>
-              <label for="partner1Income" class="block text-sm font-medium text-gray-700 mb-1">
+              <label for="partner1Income" id="partner1-income-label" class="block text-sm font-medium text-gray-700 mb-1">
                 Annual Gross Income (JOD)
               </label>
               <input
@@ -114,7 +261,7 @@
             </div>
             
             <div>
-              <label for="partner1TaxPaid" class="block text-sm font-medium text-gray-700 mb-1">
+              <label for="partner1TaxPaid" id="partner1-taxpaid-label" class="block text-sm font-medium text-gray-700 mb-1">
                 Tax Already Paid by Employer (Annual, JOD)
               </label>
               <input
@@ -129,11 +276,11 @@
             </div>
             
             <div class="space-y-4 pt-4 border-t border-gray-200">
-              <h4 class="font-medium text-gray-800">Deductions (Partner 1)</h4>
+              <h4 id="partner1-deductions-title" class="font-medium text-gray-800">Deductions (Partner 1)</h4>
               
               <div class="space-y-3">
                 <div>
-                  <label for="partner1HealthAmount" class="block text-sm font-medium text-gray-700 mb-1">
+                  <label for="partner1HealthAmount" id="partner1-health-label" class="block text-sm font-medium text-gray-700 mb-1">
                     Health Expenses (Max 1,000 JOD)
                   </label>
                   <input
@@ -149,7 +296,7 @@
                 </div>
                 
                 <div>
-                  <label for="partner1RentAmount" class="block text-sm font-medium text-gray-700 mb-1">
+                  <label for="partner1RentAmount" id="partner1-rent-label" class="block text-sm font-medium text-gray-700 mb-1">
                     Apartment Rent (Max 1,000 JOD)
                   </label>
                   <input
@@ -165,8 +312,8 @@
                 </div>
                 
                 <div>
-                  <label for="partner1LoanInterest" class="block text-sm font-medium text-gray-700 mb-1">
-                    Loan Interest (Max 1,000 JOD)
+                  <label for="partner1LoanInterest" id="partner1-loan-label" class="block text-sm font-medium text-gray-700 mb-1">
+                    Housing Loan Interest (Max 1,000 JOD)
                   </label>
                   <input
                     type="number"
@@ -181,8 +328,8 @@
                 </div>
                 
                 <div>
-                  <label for="partner1ChildrenAmount" class="block text-sm font-medium text-gray-700 mb-1">
-                    Children Deduction (Max 3,000 JOD)
+                  <label for="partner1ChildrenAmount" id="partner1-children-label" class="block text-sm font-medium text-gray-700 mb-1">
+                    Children Tuition (Max 3,000 JOD)
                   </label>
                   <input
                     type="number"
@@ -194,7 +341,7 @@
                     step="0.01"
                   >
                   <p class="mt-1 text-sm text-red-500 hidden" id="error-partner1Children"></p>
-                  <p class="mt-1 text-xs text-gray-500">
+                  <p id="partner1-children-note" class="mt-1 text-xs text-gray-500">
                     Maximum 3,000 JOD total for all children (1,000 JOD per child)
                   </p>
                 </div>
@@ -205,11 +352,11 @@
           <!-- Partner 2 Inputs (initially hidden) -->
           <div class="space-y-6 hidden" id="partner2Section">
             <div class="text-center bg-amber-50 py-3 rounded-lg">
-              <h3 class="text-xl font-bold text-amber-800">Partner 2</h3>
+              <h3 id="partner2-title" class="text-xl font-bold text-amber-800">Partner 2</h3>
             </div>
             
             <div>
-              <label for="partner2Income" class="block text-sm font-medium text-gray-700 mb-1">
+              <label for="partner2Income" id="partner2-income-label" class="block text-sm font-medium text-gray-700 mb-1">
                 Annual Gross Income (JOD)
               </label>
               <input
@@ -224,7 +371,7 @@
             </div>
             
             <div>
-              <label for="partner2TaxPaid" class="block text-sm font-medium text-gray-700 mb-1">
+              <label for="partner2TaxPaid" id="partner2-taxpaid-label" class="block text-sm font-medium text-gray-700 mb-1">
                 Tax Already Paid by Employer (Annual, JOD)
               </label>
               <input
@@ -239,11 +386,11 @@
             </div>
             
             <div class="space-y-4 pt-4 border-t border-gray-200">
-              <h4 class="font-medium text-gray-800">Deductions (Partner 2)</h4>
+              <h4 id="partner2-deductions-title" class="font-medium text-gray-800">Deductions (Partner 2)</h4>
               
               <div class="space-y-3">
                 <div>
-                  <label for="partner2HealthAmount" class="block text-sm font-medium text-gray-700 mb-1">
+                  <label for="partner2HealthAmount" id="partner2-health-label" class="block text-sm font-medium text-gray-700 mb-1">
                     Health Expenses (Max 1,000 JOD)
                   </label>
                   <input
@@ -259,7 +406,7 @@
                 </div>
                 
                 <div>
-                  <label for="partner2RentAmount" class="block text-sm font-medium text-gray-700 mb-1">
+                  <label for="partner2RentAmount" id="partner2-rent-label" class="block text-sm font-medium text-gray-700 mb-1">
                     Apartment Rent (Max 1,000 JOD)
                   </label>
                   <input
@@ -275,8 +422,8 @@
                 </div>
                 
                 <div>
-                  <label for="partner2LoanInterest" class="block text-sm font-medium text-gray-700 mb-1">
-                    Loan Interest (Max 1,000 JOD)
+                  <label for="partner2LoanInterest" id="partner2-loan-label" class="block text-sm font-medium text-gray-700 mb-1">
+                    Housing Loan Interest (Max 1,000 JOD)
                   </label>
                   <input
                     type="number"
@@ -291,8 +438,8 @@
                 </div>
                 
                 <div>
-                  <label for="partner2ChildrenAmount" class="block text-sm font-medium text-gray-700 mb-1">
-                    Children Deduction (Max 3,000 JOD)
+                  <label for="partner2ChildrenAmount" id="partner2-children-label" class="block text-sm font-medium text-gray-700 mb-1">
+                    Children Tuition (Max 3,000 JOD)
                   </label>
                   <input
                     type="number"
@@ -304,7 +451,7 @@
                     step="0.01"
                   >
                   <p class="mt-1 text-sm text-red-500 hidden" id="error-partner2Children"></p>
-                  <p class="mt-1 text-xs text-gray-500">
+                  <p id="partner2-children-note" class="mt-1 text-xs text-gray-500">
                     Maximum 3,000 JOD total for all children (1,000 JOD per child)
                   </p>
                 </div>
@@ -319,7 +466,7 @@
             id="calculateBtn"
             class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-12 rounded-xl text-lg shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            Calculate Tax Results
+            <span id="calculate-btn-text">Calculate Tax Results</span>
           </button>
           <p class="mt-3 text-sm text-gray-500 max-w-2xl mx-auto" id="calculateHelper">
             Calculate your tax liability as a single filer
@@ -331,9 +478,9 @@
     <!-- Results Section (initially hidden) -->
     <div id="resultsSection" class="space-y-12 mb-16 hidden">
       <!-- Individual Filing Results -->
-      <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+      <div class="bg-white rounded-2xl shadow-xl overflow-hidden fade-in">
         <div class="bg-gradient-to-r from-purple-600 to-indigo-700 text-white py-5 px-6">
-          <h2 class="text-2xl font-bold">Individual Filing Results</h2>
+          <h2 id="individual-results-title" class="text-2xl font-bold">Individual Filing Results</h2>
         </div>
         
         <div class="p-6 md:p-8">
@@ -344,9 +491,9 @@
       </div>
       
       <!-- Combined Filing Results -->
-      <div class="bg-white rounded-2xl shadow-xl overflow-hidden hidden" id="combinedSection">
+      <div class="bg-white rounded-2xl shadow-xl overflow-hidden hidden fade-in" id="combinedSection">
         <div class="bg-gradient-to-r from-amber-500 to-orange-600 text-white py-5 px-6">
-          <h2 class="text-2xl font-bold">Combined Filing Results</h2>
+          <h2 id="combined-results-title" class="text-2xl font-bold">Combined Filing Results</h2>
         </div>
         
         <div class="p-6 md:p-8">
@@ -357,25 +504,25 @@
       </div>
       
       <!-- Comparison Section -->
-      <div class="bg-gradient-to-br from-indigo-900 to-purple-900 rounded-2xl shadow-xl p-6 md:p-8 text-white hidden" id="comparisonSection">
-        <h2 class="text-3xl font-bold text-center mb-8">Filing Option Comparison</h2>
+      <div class="bg-gradient-to-br from-indigo-900 to-purple-900 rounded-2xl shadow-xl p-6 md:p-8 text-white hidden fade-in" id="comparisonSection">
+        <h2 id="comparison-title" class="text-3xl font-bold text-center mb-8">Filing Option Comparison</h2>
         <div class="max-w-4xl mx-auto" id="comparisonContent">
           <!-- Comparison will be inserted here by JavaScript -->
         </div>
       </div>
       
       <!-- Disclaimer -->
-      <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-r-xl max-w-4xl mx-auto">
+      <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-r-xl max-w-4xl mx-auto fade-in">
         <div class="flex">
           <div class="flex-shrink-0">
             <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
             </svg>
           </div>
-          <div class="ml-3">
+          <div class="ml-3" id="disclaimer-text">
             <p class="text-sm text-yellow-700">
-              <strong>Disclaimer:</strong> This calculator is provided for informational purposes only by AMCO to help employees decide whether to file individually or combined. 
-              Attract Company and AMCO assume no responsibility for the accuracy of the calculations or tax decisions made based on this tool. 
+              <strong>Disclaimer:</strong> This calculator is provided for informational purposes only to help employees decide whether to file individually or combined. 
+              Developer assume no responsibility for the accuracy of the calculations or tax decisions made based on this tool. 
               For official tax assessment, please consult the Jordanian Income and Sales Tax Department (ISTD) or a qualified tax professional.
             </p>
           </div>
@@ -384,9 +531,9 @@
     </div>
     
     <!-- Footer -->
-    <footer class="text-center py-8 text-gray-600 border-t border-gray-200">
-      <p class="font-medium">AMCO Tax Advisor - Jordan Income Tax Calculator</p>
-      <p class="mt-1 text-sm">developed by AMCO IT Department</p>
+    <footer class="text-center py-8 text-gray-600 border-t border-gray-200 fade-in">
+      <p class="font-medium">Tax Advisor - Jordan Income Tax Calculator</p>
+      <p class="mt-1 text-sm">developed by IT Department</p>
       <p class="mt-1 text-xs">© <span id="currentYear"></span> | For informational purposes only</p>
       <p class="mt-1 text-xs">Compliant with Jordanian Income Tax Law No. 34 of 2014 and its amendments</p>
     </footer>
@@ -395,6 +542,152 @@
   <script>
     // Set current year
     document.getElementById('currentYear').textContent = new Date().getFullYear();
+    
+    // Translations
+    const translations = {
+      en: {
+        "header-title": "Tax Advisor",
+        "header-subtitle": "Jordan Income Tax Calculator - Individual & Combined Filing Comparison",
+        "header-law": "Compliant with Jordanian Income Tax Law No. 34 of 2014",
+        "input-section-title": "Income & Deductions",
+        "partner2-toggle-label": "Add Partner 2",
+        "partner1-title": "Partner 1",
+        "partner1-income-label": "Annual Gross Income (JOD)",
+        "partner1-taxpaid-label": "Tax Already Paid by Employer (Annual, JOD)",
+        "partner1-deductions-title": "Deductions (Partner 1)",
+        "partner1-health-label": "Health Expenses (Max 1,000 JOD)",
+        "partner1-rent-label": "Apartment Rent (Max 1,000 JOD)",
+        "partner1-loan-label": "Housing Loan Interest (Max 1,000 JOD)",
+        "partner1-children-label": "Children Tuition (Max 3,000 JOD)",
+        "partner1-children-note": "Maximum 3,000 JOD total for all children (1,000 JOD per child)",
+        "partner2-title": "Partner 2",
+        "partner2-income-label": "Annual Gross Income (JOD)",
+        "partner2-taxpaid-label": "Tax Already Paid by Employer (Annual, JOD)",
+        "partner2-deductions-title": "Deductions (Partner 2)",
+        "partner2-health-label": "Health Expenses (Max 1,000 JOD)",
+        "partner2-rent-label": "Apartment Rent (Max 1,000 JOD)",
+        "partner2-loan-label": "Housing Loan Interest (Max 1,000 JOD)",
+        "partner2-children-label": "Children Tuition (Max 3,000 JOD)",
+        "partner2-children-note": "Maximum 3,000 JOD total for all children (1,000 JOD per child)",
+        "calculate-btn-text": "Calculate Tax Results",
+        "calculateHelper-single": "Calculate your tax liability as a single filer",
+        "calculateHelper-combined": "Compare individual vs combined filing to find the most advantageous option",
+        "individual-results-title": "Individual Filing Results",
+        "combined-results-title": "Combined Filing Results",
+        "comparison-title": "Filing Option Comparison",
+        "disclaimer-text": "<strong>Disclaimer:</strong> This calculator is provided for informational purposes only to help employees decide whether to file individually or combined. The developer assume no responsibility for the accuracy of the calculations or tax decisions made based on this tool. For official tax assessment, please consult the Jordanian Income and Sales Tax Department (ISTD) or a qualified tax professional.",
+        "personal-exemption": "Personal Exemption",
+        "children-deduction": "Children Tuition",
+        "health-expenses": "Health Expenses",
+        "apartment-rent": "Apartment Rent",
+        "loan-interest": "Housing Loan Interest",
+        "combined-personal-exemption": "Combined Personal Exemption",
+        "taxable-income": "Taxable Income",
+        "after-deductions": "After all applicable deductions",
+        "deductions-applied": "Deductions Applied",
+        "tax-calculation": "Tax Calculation",
+        "total-tax": "Total Tax",
+        "tax-already-paid": "Tax Already Paid",
+        "net-result": "Net Result",
+        "tax-payable": "⚠️ Tax Payable",
+        "tax-refundable": "✓ Tax Refundable",
+        "total-payable": "Total Payable",
+        "total-refundable": "Total Refundable",
+        "total-tax-calculated": "Total Tax Calculated",
+        "total-tax-paid": "Total Tax Paid",
+        "tax-bracket": "Tax Bracket",
+        "amount-jod": "Amount (JOD)",
+        "tax-rate": "Tax Rate",
+        "tax-jod": "Tax (JOD)",
+        "additional-tax-payable": "⚠️ Additional tax payable",
+        "tax-refund-eligible": "✓ Tax refund eligible",
+        "individual-filing": "Individual Filing",
+        "combined-filing": "Combined Filing",
+        "individual-better": "✓ Individual Filing is More Advantageous",
+        "combined-better": "✓ Combined Filing is More Advantageous",
+        "potential-savings": "Potential Savings",
+        "individual-better-desc": "Filing individually would result in lower tax liability or higher refund compared to combined filing.",
+        "combined-better-desc": "Filing combined would result in lower tax liability or higher refund compared to individual filing.",
+        "error-income": "Please enter a valid non-negative number",
+        "error-tax-paid": "Please enter a valid non-negative number",
+        "error-health": "Health expense must be between 0 and 1,000 JOD",
+        "error-rent": "Rent expense must be between 0 and 1,000 JOD",
+        "error-loan": "Housing loan interest must be between 0 and 1,000 JOD",
+        "error-children": "Children tuition must be between 0 and 3,000 JOD",
+        "error-total-children": "Total children tuition cannot exceed 3,000 JOD"
+      },
+      ar: {
+        "header-title": "مستشار الضرائب",
+        "header-subtitle": "حاسبة ضريبة الدخل الأردنية - مقارنة بين التصريح الفردي والمشترك",
+        "header-law": "متوافق مع قانون ضريبة الدخل الأردني رقم 34 لسنة 2014",
+        "input-section-title": "الدخل والاستقطاعات",
+        "partner2-toggle-label": "إضافة الشريك الثاني",
+        "partner1-title": "الشريك الأول",
+        "partner1-income-label": "إجمالي الدخل السنوي (دينار أردني)",
+        "partner1-taxpaid-label": "الضريبة المدفوعة مسبقًا من صاحب العمل (سنويًا، دينار أردني)",
+        "partner1-deductions-title": "الاستقطاعات (الشريك الأول)",
+        "partner1-health-label": "المصروفات الصحية (بحد أقصى 1,000 دينار أردني)",
+        "partner1-rent-label": "إيجار الشقة (بحد أقصى 1,000 دينار أردني)",
+        "partner1-loan-label": "فائدة قرض الإسكان (بحد أقصى 1,000 دينار أردني)",
+        "partner1-children-label": "رسوم دراسية للأطفال (بحد أقصى 3,000 دينار أردني)",
+        "partner1-children-note": "الحد الأقصى 3,000 دينار أردني لجميع الأطفال (1,000 دينار أردني لكل طفل)",
+        "partner2-title": "الشريك الثاني",
+        "partner2-income-label": "إجمالي الدخل السنوي (دينار أردني)",
+        "partner2-taxpaid-label": "الضريبة المدفوعة مسبقًا من صاحب العمل (سنويًا، دينار أردني)",
+        "partner2-deductions-title": "الاستقطاعات (الشريك الثاني)",
+        "partner2-health-label": "المصروفات الصحية (بحد أقصى 1,000 دينار أردني)",
+        "partner2-rent-label": "إيجار الشقة (بحد أقصى 1,000 دينار أردني)",
+        "partner2-loan-label": "فائدة قرض الإسكان (بحد أقصى 1,000 دينار أردني)",
+        "partner2-children-label": "رسوم دراسية للأطفال (بحد أقصى 3,000 دينار أردني)",
+        "partner2-children-note": "الحد الأقصى 3,000 دينار أردني لجميع الأطفال (1,000 دينار أردني لكل طفل)",
+        "calculate-btn-text": "حساب نتائج الضريبة",
+        "calculateHelper-single": "احسب التزامك الضريبي كمُصرِّح فردي",
+        "calculateHelper-combined": "قارن بين التصريح الفردي والمشترك لتحديد الخيار الأكثر فائدة",
+        "individual-results-title": "نتائج التصريح الفردي",
+        "combined-results-title": "نتائج التصريح المشترك",
+        "comparison-title": "مقارنة خيارات التصريح",
+        "disclaimer-text": "<strong>تنويه:</strong> هذه الحاسبة مقدمة لأغراض إعلامية فقط لمساعدة الموظفين في تحديد ما إذا كانوا سيصرحون بشكل فردي أو مشترك. المبرمج لا يتحمل المسؤولية عن دقة الحسابات أو القرارات الضريبية المتخذة بناءً على هذه الأداة. للتقييم الضريبي الرسمي، يرجى استشارة دائرة ضريبة الدخل والمبيعات الأردنية (ISTD) أو أخصائي ضرائب مؤهل.",
+        "personal-exemption": "إعفاء شخصي",
+        "children-deduction": "رسوم دراسية للأطفال",
+        "health-expenses": "المصروفات الصحية",
+        "apartment-rent": "إيجار الشقة",
+        "loan-interest": "فائدة قرض الإسكان",
+        "combined-personal-exemption": "إعفاء شخصي مشترك",
+        "taxable-income": "الدخل الخاضع للضريبة",
+        "after-deductions": "بعد جميع الاستقطاعات المعمول بها",
+        "deductions-applied": "الاستقطاعات المطبقة",
+        "tax-calculation": "حساب الضريبة",
+        "total-tax": "إجمالي الضريبة",
+        "tax-already-paid": "الضريبة المدفوعة مسبقًا",
+        "net-result": "النتيجة الصافية",
+        "tax-payable": "⚠️ ضريبة مستحقة الدفع",
+        "tax-refundable": "✓ مستحق استرداد الضريبة",
+        "total-payable": "الإجمالي المستحق",
+        "total-refundable": "الإجمالي المسترد",
+        "total-tax-calculated": "إجمالي الضريبة المحسوبة",
+        "total-tax-paid": "إجمالي الضريبة المدفوعة",
+        "tax-bracket": "شريحة الضريبة",
+        "amount-jod": "المبلغ (دينار أردني)",
+        "tax-rate": "معدل الضريبة",
+        "tax-jod": "الضريبة (دينار أردني)",
+        "additional-tax-payable": "⚠️ ضريبة إضافية مستحقة الدفع",
+        "tax-refund-eligible": "✓ مؤهل لاسترداد الضريبة",
+        "individual-filing": "التصريح الفردي",
+        "combined-filing": "التصريح المشترك",
+        "individual-better": "✓ التصريح الفردي أكثر فائدة",
+        "combined-better": "✓ التصريح المشترك أكثر فائدة",
+        "potential-savings": "المحفوظات المحتملة",
+        "individual-better-desc": "التصريح الفردي سيؤدي إلى التزام ضريبي أقل أو استرداد أعلى مقارنة بالتصريح المشترك.",
+        "combined-better-desc": "التصريح المشترك سيؤدي إلى التزام ضريبي أقل أو استرداد أعلى مقارنة بالتصريح الفردي.",
+        "error-income": "الرجاء إدخال رقم صالح غير سالب",
+        "error-tax-paid": "الرجاء إدخال رقم صالح غير سالب",
+        "error-health": "يجب أن تكون المصروفات الصحية بين 0 و 1,000 دينار أردني",
+        "error-rent": "يجب أن يكون إيجار الشقة بين 0 و 1,000 دينار أردني",
+        "error-loan": "يجب أن تكون فائدة قرض الإسكان بين 0 و 1,000 دينار أردني",
+        "error-children": "يجب أن تكون الرسوم الدراسية للأطفال بين 0 و 3,000 دينار أردني",
+        "error-total-children": "إجمالي الرسوم الدراسية للأطفال لا يمكن أن يتجاوز 3,000 دينار أردني"
+      }
+    };
     
     // DOM Elements
     const partner2Toggle = document.getElementById('partner2Toggle');
@@ -407,15 +700,87 @@
     const combinedResults = document.getElementById('combinedResults');
     const comparisonContent = document.getElementById('comparisonContent');
     const calculateHelper = document.getElementById('calculateHelper');
+    const langEnBtn = document.getElementById('lang-en');
+    const langArBtn = document.getElementById('lang-ar');
+    
+    // Current language
+    let currentLang = 'en';
+    
+    // Set language function
+    function setLanguage(lang) {
+      currentLang = lang;
+      
+      // Update language buttons
+      if (lang === 'en') {
+        langEnBtn.classList.add('active');
+        langArBtn.classList.remove('active');
+        document.documentElement.setAttribute('lang', 'en');
+        document.documentElement.setAttribute('dir', 'ltr');
+        document.body.setAttribute('dir', 'ltr');
+      } else {
+        langEnBtn.classList.remove('active');
+        langArBtn.classList.add('active');
+        document.documentElement.setAttribute('lang', 'ar');
+        document.documentElement.setAttribute('dir', 'rtl');
+        document.body.setAttribute('dir', 'rtl');
+      }
+      
+      // Update all translatable elements
+      Object.keys(translations[lang]).forEach(key => {
+        const element = document.getElementById(key);
+        if (element) {
+          if (key === 'disclaimer-text') {
+            element.innerHTML = translations[lang][key];
+          } else {
+            element.textContent = translations[lang][key];
+          }
+        }
+      });
+      
+      // Update placeholders
+      document.getElementById('partner1Income').placeholder = lang === 'en' ? 'Enter annual income' : 'أدخل الدخل السنوي';
+      document.getElementById('partner1TaxPaid').placeholder = lang === 'en' ? 'Enter tax paid' : 'أدخل الضريبة المدفوعة';
+      document.getElementById('partner1HealthAmount').placeholder = lang === 'en' ? '0 - 1,000' : '0 - 1,000';
+      document.getElementById('partner1RentAmount').placeholder = lang === 'en' ? '0 - 1,000' : '0 - 1,000';
+      document.getElementById('partner1LoanInterest').placeholder = lang === 'en' ? '0 - 1,000' : '0 - 1,000';
+      document.getElementById('partner1ChildrenAmount').placeholder = lang === 'en' ? '0 - 3,000' : '0 - 3,000';
+      
+      if (partner2Toggle.checked) {
+        document.getElementById('partner2Income').placeholder = lang === 'en' ? 'Enter annual income' : 'أدخل الدخل السنوي';
+        document.getElementById('partner2TaxPaid').placeholder = lang === 'en' ? 'Enter tax paid' : 'أدخل الضريبة المدفوعة';
+        document.getElementById('partner2HealthAmount').placeholder = lang === 'en' ? '0 - 1,000' : '0 - 1,000';
+        document.getElementById('partner2RentAmount').placeholder = lang === 'en' ? '0 - 1,000' : '0 - 1,000';
+        document.getElementById('partner2LoanInterest').placeholder = lang === 'en' ? '0 - 1,000' : '0 - 1,000';
+        document.getElementById('partner2ChildrenAmount').placeholder = lang === 'en' ? '0 - 3,000' : '0 - 3,000';
+      }
+      
+      // Update helper text
+      calculateHelper.textContent = partner2Toggle.checked ? 
+        translations[lang]['calculateHelper-combined'] : 
+        translations[lang]['calculateHelper-single'];
+      
+      // Update results if visible
+      if (resultsSection.classList.contains('hidden') === false) {
+        // Re-render results with new language
+        calculateResults();
+      }
+    }
+    
+    // Language toggle event listeners
+    langEnBtn.addEventListener('click', () => setLanguage('en'));
+    langArBtn.addEventListener('click', () => setLanguage('ar'));
+    
+    // Initialize with English
+    setLanguage('en');
     
     // Toggle Partner 2 section
     partner2Toggle.addEventListener('change', function() {
       if (this.checked) {
         partner2Section.classList.remove('hidden');
-        calculateHelper.textContent = "Compare individual vs combined filing to find the most advantageous option";
+        calculateHelper.textContent = translations[currentLang]['calculateHelper-combined'];
       } else {
         partner2Section.classList.add('hidden');
-        calculateHelper.textContent = "Calculate your tax liability as a single filer";
+        calculateHelper.textContent = translations[currentLang]['calculateHelper-single'];
         // Clear partner 2 inputs
         document.getElementById('partner2Income').value = '';
         document.getElementById('partner2TaxPaid').value = '';
@@ -431,7 +796,7 @@
     
     // Format currency
     function formatCurrency(amount) {
-      return new Intl.NumberFormat('en-JO', {
+      return new Intl.NumberFormat(currentLang === 'ar' ? 'ar-JO' : 'en-JO', {
         style: 'decimal',
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
@@ -448,11 +813,11 @@
     // Calculate tax using progressive brackets
     function calculateTax(taxableIncome) {
       const brackets = [
-        { min: 0, max: 5000, rate: 0.05, label: "1 - 5,000 JOD" },
-        { min: 5000, max: 10000, rate: 0.10, label: "5,001 - 10,000 JOD" },
-        { min: 10000, max: 15000, rate: 0.15, label: "10,001 - 15,000 JOD" },
-        { min: 15000, max: 20000, rate: 0.20, label: "15,001 - 20,000 JOD" },
-        { min: 20000, max: Infinity, rate: 0.25, label: "20,001+ JOD" }
+        { min: 0, max: 5000, rate: 0.05, label: currentLang === 'ar' ? "1 - 5,000 دينار" : "1 - 5,000 JOD" },
+        { min: 5000, max: 10000, rate: 0.10, label: currentLang === 'ar' ? "5,001 - 10,000 دينار" : "5,001 - 10,000 JOD" },
+        { min: 10000, max: 15000, rate: 0.15, label: currentLang === 'ar' ? "10,001 - 15,000 دينار" : "10,001 - 15,000 JOD" },
+        { min: 15000, max: 20000, rate: 0.20, label: currentLang === 'ar' ? "15,001 - 20,000 دينار" : "15,001 - 20,000 JOD" },
+        { min: 20000, max: Infinity, rate: 0.25, label: currentLang === 'ar' ? "20,001+ دينار" : "20,001+ JOD" }
       ];
       
       let remaining = taxableIncome;
@@ -497,27 +862,27 @@
       const children1 = parseFloat(document.getElementById('partner1ChildrenAmount').value);
       
       if (isNaN(income1) || income1 < 0) {
-        errors.partner1Income = "Please enter a valid non-negative number";
+        errors.partner1Income = translations[currentLang]['error-income'];
       }
       
       if (isNaN(tax1) || tax1 < 0) {
-        errors.partner1TaxPaid = "Please enter a valid non-negative number";
+        errors.partner1TaxPaid = translations[currentLang]['error-tax-paid'];
       }
       
       if (document.getElementById('partner1HealthAmount').value && (!isNaN(health1) && (health1 < 0 || health1 > 1000))) {
-        errors.partner1Health = "Health expense must be between 0 and 1,000 JOD";
+        errors.partner1Health = translations[currentLang]['error-health'];
       }
       
       if (document.getElementById('partner1RentAmount').value && (!isNaN(rent1) && (rent1 < 0 || rent1 > 1000))) {
-        errors.partner1Rent = "Rent expense must be between 0 and 1,000 JOD";
+        errors.partner1Rent = translations[currentLang]['error-rent'];
       }
       
       if (document.getElementById('partner1LoanInterest').value && (!isNaN(loan1) && (loan1 < 0 || loan1 > 1000))) {
-        errors.partner1Loan = "Loan interest must be between 0 and 1,000 JOD";
+        errors.partner1Loan = translations[currentLang]['error-loan'];
       }
       
       if (document.getElementById('partner1ChildrenAmount').value && (!isNaN(children1) && (children1 < 0 || children1 > 3000))) {
-        errors.partner1Children = "Children deduction must be between 0 and 3,000 JOD";
+        errors.partner1Children = translations[currentLang]['error-children'];
       }
       
       // Partner 2 validation
@@ -531,31 +896,31 @@
         const totalChildren = (children1 || 0) + (children2 || 0);
         
         if (isNaN(income2) || income2 < 0) {
-          errors.partner2Income = "Please enter a valid non-negative number";
+          errors.partner2Income = translations[currentLang]['error-income'];
         }
         
         if (isNaN(tax2) || tax2 < 0) {
-          errors.partner2TaxPaid = "Please enter a valid non-negative number";
+          errors.partner2TaxPaid = translations[currentLang]['error-tax-paid'];
         }
         
         if (document.getElementById('partner2HealthAmount').value && (!isNaN(health2) && (health2 < 0 || health2 > 1000))) {
-          errors.partner2Health = "Health expense must be between 0 and 1,000 JOD";
+          errors.partner2Health = translations[currentLang]['error-health'];
         }
         
         if (document.getElementById('partner2RentAmount').value && (!isNaN(rent2) && (rent2 < 0 || rent2 > 1000))) {
-          errors.partner2Rent = "Rent expense must be between 0 and 1,000 JOD";
+          errors.partner2Rent = translations[currentLang]['error-rent'];
         }
         
         if (document.getElementById('partner2LoanInterest').value && (!isNaN(loan2) && (loan2 < 0 || loan2 > 1000))) {
-          errors.partner2Loan = "Loan interest must be between 0 and 1,000 JOD";
+          errors.partner2Loan = translations[currentLang]['error-loan'];
         }
         
         if (document.getElementById('partner2ChildrenAmount').value && (!isNaN(children2) && (children2 < 0 || children2 > 3000))) {
-          errors.partner2Children = "Children deduction must be between 0 and 3,000 JOD";
+          errors.partner2Children = translations[currentLang]['error-children'];
         }
         
         if (totalChildren > 3000) {
-          errors.totalChildren = "Total children deduction cannot exceed 3,000 JOD";
+          errors.totalChildren = translations[currentLang]['error-total-children'];
         }
       }
       
@@ -583,8 +948,8 @@
       }
     }
     
-    // Calculate results
-    calculateBtn.addEventListener('click', function() {
+    // Calculate results function
+    function calculateResults() {
       const isPartner2Present = partner2Toggle.checked;
       
       if (!validateInputs(isPartner2Present)) {
@@ -721,60 +1086,65 @@
       
       // Scroll to results
       resultsSection.scrollIntoView({ behavior: 'smooth' });
-    });
+    }
+    
+    // Calculate button event listener
+    calculateBtn.addEventListener('click', calculateResults);
     
     // Render individual results
     function renderIndividualResults(results) {
+      const t = translations[currentLang];
+      
       let html = `
         <!-- Partner 1 Results -->
         <div class="border rounded-xl p-6 bg-gray-50">
           <div class="text-center mb-5">
-            <h3 class="text-xl font-bold text-indigo-800">Partner 1</h3>
+            <h3 class="text-xl font-bold text-indigo-800">${t['partner1-title']}</h3>
             <div class="mt-1 text-sm text-gray-600">
-              Taxable Income: ${formatCurrency(results.partner1.taxableIncome)} JOD
+              ${t['taxable-income']}: ${formatCurrency(results.partner1.taxableIncome)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}
             </div>
           </div>
           
           <div class="mb-6">
-            <h4 class="font-semibold text-gray-700 mb-3">Deductions Applied:</h4>
+            <h4 class="font-semibold text-gray-700 mb-3">${t['deductions-applied']}:</h4>
             <div class="space-y-1 text-sm">
-              <div>• Personal Exemption: 9,000 JOD</div>
-              <div>• Children Deduction: ${formatCurrency(results.partner1.deductions.children)} JOD</div>
-              <div>• Health Expenses: ${formatCurrency(results.partner1.deductions.health)} JOD</div>
-              <div>• Apartment Rent: ${formatCurrency(results.partner1.deductions.rent)} JOD</div>
-              <div>• Loan Interest: ${formatCurrency(results.partner1.deductions.loan)} JOD</div>
+              <div>• ${t['personal-exemption']}: 9,000 ${currentLang === 'ar' ? 'دينار' : 'JOD'}</div>
+              <div>• ${t['children-deduction']}: ${formatCurrency(results.partner1.deductions.children)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</div>
+              <div>• ${t['health-expenses']}: ${formatCurrency(results.partner1.deductions.health)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</div>
+              <div>• ${t['apartment-rent']}: ${formatCurrency(results.partner1.deductions.rent)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</div>
+              <div>• ${t['loan-interest']}: ${formatCurrency(results.partner1.deductions.loan)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</div>
             </div>
           </div>
           
           <div class="mb-6">
-            <h4 class="font-semibold text-gray-700 mb-3">Tax Calculation:</h4>
+            <h4 class="font-semibold text-gray-700 mb-3">${t['tax-calculation']}:</h4>
             <div class="space-y-2">
               ${results.partner1.breakdown.map(bracket => `
                 <div class="flex justify-between text-sm">
                   <span class="text-gray-600">${bracket.range} @ ${Math.round(bracket.rate * 100)}%:</span>
-                  <span class="font-medium">${formatCurrency(bracket.tax)} JOD</span>
+                  <span class="font-medium">${formatCurrency(bracket.tax)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</span>
                 </div>
               `).join('')}
               <div class="border-t border-gray-200 pt-2 mt-2 flex justify-between font-bold">
-                <span>Total Tax:</span>
-                <span>${formatCurrency(results.partner1.totalTax)} JOD</span>
+                <span>${t['total-tax']}:</span>
+                <span>${formatCurrency(results.partner1.totalTax)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</span>
               </div>
             </div>
           </div>
           
           <div class="bg-white rounded-lg p-4 border border-gray-200">
             <div class="flex justify-between mb-2">
-              <span class="text-gray-600">Tax Already Paid:</span>
-              <span class="font-medium text-green-700">${formatCurrency(results.partner1.taxPaid)} JOD</span>
+              <span class="text-gray-600">${t['tax-already-paid']}:</span>
+              <span class="font-medium text-green-700">${formatCurrency(results.partner1.taxPaid)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</span>
             </div>
             <div class="flex justify-between text-lg font-bold pt-2 border-t border-gray-200">
-              <span>Net Result:</span>
+              <span>${t['net-result']}:</span>
               <span class="${results.partner1.net >= 0 ? 'text-red-600' : 'text-green-600'}">
-                ${formatCurrency(Math.abs(results.partner1.net))} JOD
+                ${formatCurrency(Math.abs(results.partner1.net))} ${currentLang === 'ar' ? 'دينار' : 'JOD'}
               </span>
             </div>
             <div class="mt-2 text-center text-sm font-medium">
-              ${results.partner1.net >= 0 ? '⚠️ Tax Payable' : '✓ Tax Refundable'}
+              ${results.partner1.net >= 0 ? t['tax-payable'] : t['tax-refundable']}
             </div>
           </div>
         </div>
@@ -786,52 +1156,52 @@
           <!-- Partner 2 Results -->
           <div class="border rounded-xl p-6 bg-gray-50">
             <div class="text-center mb-5">
-              <h3 class="text-xl font-bold text-amber-800">Partner 2</h3>
+              <h3 class="text-xl font-bold text-amber-800">${t['partner2-title']}</h3>
               <div class="mt-1 text-sm text-gray-600">
-                Taxable Income: ${formatCurrency(results.partner2.taxableIncome)} JOD
+                ${t['taxable-income']}: ${formatCurrency(results.partner2.taxableIncome)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}
               </div>
             </div>
             
             <div class="mb-6">
-              <h4 class="font-semibold text-gray-700 mb-3">Deductions Applied:</h4>
+              <h4 class="font-semibold text-gray-700 mb-3">${t['deductions-applied']}:</h4>
               <div class="space-y-1 text-sm">
-                <div>• Personal Exemption: 9,000 JOD</div>
-                <div>• Children Deduction: ${formatCurrency(results.partner2.deductions.children)} JOD</div>
-                <div>• Health Expenses: ${formatCurrency(results.partner2.deductions.health)} JOD</div>
-                <div>• Apartment Rent: ${formatCurrency(results.partner2.deductions.rent)} JOD</div>
-                <div>• Loan Interest: ${formatCurrency(results.partner2.deductions.loan)} JOD</div>
+                <div>• ${t['personal-exemption']}: 9,000 ${currentLang === 'ar' ? 'دينار' : 'JOD'}</div>
+                <div>• ${t['children-deduction']}: ${formatCurrency(results.partner2.deductions.children)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</div>
+                <div>• ${t['health-expenses']}: ${formatCurrency(results.partner2.deductions.health)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</div>
+                <div>• ${t['apartment-rent']}: ${formatCurrency(results.partner2.deductions.rent)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</div>
+                <div>• ${t['loan-interest']}: ${formatCurrency(results.partner2.deductions.loan)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</div>
               </div>
             </div>
             
             <div class="mb-6">
-              <h4 class="font-semibold text-gray-700 mb-3">Tax Calculation:</h4>
+              <h4 class="font-semibold text-gray-700 mb-3">${t['tax-calculation']}:</h4>
               <div class="space-y-2">
                 ${results.partner2.breakdown.map(bracket => `
                   <div class="flex justify-between text-sm">
                     <span class="text-gray-600">${bracket.range} @ ${Math.round(bracket.rate * 100)}%:</span>
-                    <span class="font-medium">${formatCurrency(bracket.tax)} JOD</span>
+                    <span class="font-medium">${formatCurrency(bracket.tax)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</span>
                   </div>
                 `).join('')}
                 <div class="border-t border-gray-200 pt-2 mt-2 flex justify-between font-bold">
-                  <span>Total Tax:</span>
-                  <span>${formatCurrency(results.partner2.totalTax)} JOD</span>
+                  <span>${t['total-tax']}:</span>
+                  <span>${formatCurrency(results.partner2.totalTax)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</span>
                 </div>
               </div>
             </div>
             
             <div class="bg-white rounded-lg p-4 border border-gray-200">
               <div class="flex justify-between mb-2">
-                <span class="text-gray-600">Tax Already Paid:</span>
-                <span class="font-medium text-green-700">${formatCurrency(results.partner2.taxPaid)} JOD</span>
+                <span class="text-gray-600">${t['tax-already-paid']}:</span>
+                <span class="font-medium text-green-700">${formatCurrency(results.partner2.taxPaid)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</span>
               </div>
               <div class="flex justify-between text-lg font-bold pt-2 border-t border-gray-200">
-                <span>Net Result:</span>
+                <span>${t['net-result']}:</span>
                 <span class="${results.partner2.net >= 0 ? 'text-red-600' : 'text-green-600'}">
-                  ${formatCurrency(Math.abs(results.partner2.net))} JOD
+                  ${formatCurrency(Math.abs(results.partner2.net))} ${currentLang === 'ar' ? 'دينار' : 'JOD'}
                 </span>
               </div>
               <div class="mt-2 text-center text-sm font-medium">
-                ${results.partner2.net >= 0 ? '⚠️ Tax Payable' : '✓ Tax Refundable'}
+                ${results.partner2.net >= 0 ? t['tax-payable'] : t['tax-refundable']}
               </div>
             </div>
           </div>
@@ -843,38 +1213,40 @@
     
     // Render combined results
     function renderCombinedResults(result) {
+      const t = translations[currentLang];
+      
       combinedResults.innerHTML = `
         <div class="text-center mb-6">
-          <h3 class="text-xl font-bold text-gray-800">Combined Taxable Income</h3>
+          <h3 class="text-xl font-bold text-gray-800">${t['taxable-income']}</h3>
           <div class="mt-2 text-3xl font-bold text-indigo-700">
-            ${formatCurrency(result.taxableIncome)} JOD
+            ${formatCurrency(result.taxableIncome)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}
           </div>
           <div class="mt-1 text-sm text-gray-600">
-            After all applicable deductions
+            ${t['after-deductions']}
           </div>
         </div>
         
         <div class="mb-6">
-          <h4 class="font-semibold text-gray-700 mb-3 text-center">Deductions Applied:</h4>
+          <h4 class="font-semibold text-gray-700 mb-3 text-center">${t['deductions-applied']}:</h4>
           <div class="space-y-1 text-sm max-w-md mx-auto">
-            <div>• Combined Personal Exemption: 18,000 JOD</div>
-            <div>• Children Deduction: ${formatCurrency(result.deductions.children)} JOD</div>
-            <div>• Health Expenses: ${formatCurrency(result.deductions.health)} JOD</div>
-            <div>• Apartment Rent: ${formatCurrency(result.deductions.rent)} JOD</div>
-            <div>• Loan Interest: ${formatCurrency(result.deductions.loan)} JOD</div>
+            <div>• ${t['combined-personal-exemption']}: 18,000 ${currentLang === 'ar' ? 'دينار' : 'JOD'}</div>
+            <div>• ${t['children-deduction']}: ${formatCurrency(result.deductions.children)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</div>
+            <div>• ${t['health-expenses']}: ${formatCurrency(result.deductions.health)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</div>
+            <div>• ${t['apartment-rent']}: ${formatCurrency(result.deductions.rent)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</div>
+            <div>• ${t['loan-interest']}: ${formatCurrency(result.deductions.loan)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</div>
           </div>
         </div>
         
         <div class="mb-8">
-          <h4 class="font-semibold text-gray-700 mb-3 text-center">Tax Calculation by Bracket:</h4>
+          <h4 class="font-semibold text-gray-700 mb-3 text-center">${t['tax-calculation']}:</h4>
           <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
               <thead class="bg-gray-50">
                 <tr>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tax Bracket</th>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount (JOD)</th>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tax Rate</th>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tax (JOD)</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">${t['tax-bracket']}</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">${t['amount-jod']}</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">${t['tax-rate']}</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">${t['tax-jod']}</th>
                 </tr>
               </thead>
               <tbody class="bg-white divide-y divide-gray-200">
@@ -883,14 +1255,14 @@
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">${bracket.range}</td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">${formatCurrency(bracket.amount)}</td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">${Math.round(bracket.rate * 100)}%</td>
-                    <td class="px-4 py-3 whitespace-nowrap text-sm font-bold text-indigo-700">${formatCurrency(bracket.tax)}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm font-bold text-indigo-700">${formatCurrency(bracket.tax)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</td>
                   </tr>
                 `).join('')}
               </tbody>
               <tfoot>
                 <tr class="bg-amber-50">
-                  <td colspan="3" class="px-4 py-3 text-right font-bold text-gray-800">Total Tax:</td>
-                  <td class="px-4 py-3 font-bold text-orange-800">${formatCurrency(result.totalTax)} JOD</td>
+                  <td colspan="3" class="px-4 py-3 text-right font-bold text-gray-800">${t['total-tax']}:</td>
+                  <td class="px-4 py-3 font-bold text-orange-800">${formatCurrency(result.totalTax)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</td>
                 </tr>
               </tfoot>
             </table>
@@ -899,17 +1271,17 @@
         
         <div class="bg-white rounded-xl p-6 border border-gray-200 max-w-2xl mx-auto">
           <div class="flex justify-between mb-3">
-            <span class="text-gray-600 font-medium">Total Tax Already Paid:</span>
-            <span class="font-bold text-green-700">${formatCurrency(result.totalTaxPaid)} JOD</span>
+            <span class="text-gray-600 font-medium">${t['tax-already-paid']}:</span>
+            <span class="font-bold text-green-700">${formatCurrency(result.totalTaxPaid)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</span>
           </div>
           <div class="flex justify-between text-2xl font-bold pt-3 border-t border-gray-200">
-            <span>Net Result:</span>
+            <span>${t['net-result']}:</span>
             <span class="${result.netResult >= 0 ? 'text-red-600' : 'text-green-600'}">
-              ${formatCurrency(Math.abs(result.netResult))} JOD
+              ${formatCurrency(Math.abs(result.netResult))} ${currentLang === 'ar' ? 'دينار' : 'JOD'}
             </span>
           </div>
           <div class="mt-3 text-center text-lg font-medium italic">
-            ${result.netResult >= 0 ? '⚠️ Additional tax payable' : '✓ Tax refund eligible'}
+            ${result.netResult >= 0 ? t['additional-tax-payable'] : t['tax-refund-eligible']}
           </div>
         </div>
       `;
@@ -917,6 +1289,7 @@
     
     // Render comparison
     function renderComparison(comparison, data) {
+      const t = translations[currentLang];
       const individualTotalTax = data.partner1.totalTax + data.partner2.totalTax;
       const individualTotalPaid = data.partner1.taxPaid + data.partner2.taxPaid;
       
@@ -924,27 +1297,27 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
           <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-indigo-800/50">
             <div class="text-center mb-4">
-              <div class="text-lg font-medium mb-1">Individual Filing</div>
+              <div class="text-lg font-medium mb-1">${t['individual-filing']}</div>
               <div class="${comparison.totalIndividualNet >= 0 ? 'text-red-300' : 'text-green-300'} text-3xl font-bold">
-                ${formatCurrency(Math.abs(comparison.totalIndividualNet))} JOD
+                ${formatCurrency(Math.abs(comparison.totalIndividualNet))} ${currentLang === 'ar' ? 'دينار' : 'JOD'}
               </div>
               <div class="mt-1 text-sm">
-                ${comparison.totalIndividualNet >= 0 ? 'Total Payable' : 'Total Refundable'}
+                ${comparison.totalIndividualNet >= 0 ? t['total-payable'] : t['total-refundable']}
               </div>
             </div>
             <div class="space-y-3">
               <div class="flex justify-between">
-                <span>Total Tax Calculated:</span>
-                <span>${formatCurrency(individualTotalTax)} JOD</span>
+                <span>${t['total-tax-calculated']}:</span>
+                <span>${formatCurrency(individualTotalTax)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</span>
               </div>
               <div class="flex justify-between">
-                <span>Total Tax Paid:</span>
-                <span>${formatCurrency(individualTotalPaid)} JOD</span>
+                <span>${t['total-tax-paid']}:</span>
+                <span>${formatCurrency(individualTotalPaid)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</span>
               </div>
               <div class="flex justify-between pt-2 border-t border-indigo-700/50">
-                <span class="font-bold">Net Result:</span>
+                <span class="font-bold">${t['net-result']}:</span>
                 <span class="${comparison.totalIndividualNet >= 0 ? 'text-red-300' : 'text-green-300'} font-bold text-xl">
-                  ${formatCurrency(Math.abs(comparison.totalIndividualNet))} JOD
+                  ${formatCurrency(Math.abs(comparison.totalIndividualNet))} ${currentLang === 'ar' ? 'دينار' : 'JOD'}
                 </span>
               </div>
             </div>
@@ -952,27 +1325,27 @@
           
           <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-amber-800/50">
             <div class="text-center mb-4">
-              <div class="text-lg font-medium mb-1">Combined Filing</div>
+              <div class="text-lg font-medium mb-1">${t['combined-filing']}</div>
               <div class="${comparison.totalCombinedNet >= 0 ? 'text-red-300' : 'text-green-300'} text-3xl font-bold">
-                ${formatCurrency(Math.abs(comparison.totalCombinedNet))} JOD
+                ${formatCurrency(Math.abs(comparison.totalCombinedNet))} ${currentLang === 'ar' ? 'دينار' : 'JOD'}
               </div>
               <div class="mt-1 text-sm">
-                ${comparison.totalCombinedNet >= 0 ? 'Total Payable' : 'Total Refundable'}
+                ${comparison.totalCombinedNet >= 0 ? t['total-payable'] : t['total-refundable']}
               </div>
             </div>
             <div class="space-y-3">
               <div class="flex justify-between">
-                <span>Total Tax Calculated:</span>
-                <span>${formatCurrency(data.combined.totalTax)} JOD</span>
+                <span>${t['total-tax-calculated']}:</span>
+                <span>${formatCurrency(data.combined.totalTax)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</span>
               </div>
               <div class="flex justify-between">
-                <span>Total Tax Paid:</span>
-                <span>${formatCurrency(data.combined.totalTaxPaid)} JOD</span>
+                <span>${t['total-tax-paid']}:</span>
+                <span>${formatCurrency(data.combined.totalTaxPaid)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}</span>
               </div>
               <div class="flex justify-between pt-2 border-t border-amber-700/50">
-                <span class="font-bold">Net Result:</span>
+                <span class="font-bold">${t['net-result']}:</span>
                 <span class="${comparison.totalCombinedNet >= 0 ? 'text-red-300' : 'text-green-300'} font-bold text-xl">
-                  ${formatCurrency(Math.abs(comparison.totalCombinedNet))} JOD
+                  ${formatCurrency(Math.abs(comparison.totalCombinedNet))} ${currentLang === 'ar' ? 'دينار' : 'JOD'}
                 </span>
               </div>
             </div>
@@ -981,17 +1354,13 @@
         
         <div class="rounded-xl p-6 text-center ${comparison.individualBetter ? 'bg-gradient-to-r from-purple-500 to-indigo-600' : 'bg-gradient-to-r from-yellow-400 to-yellow-600'}">
           <h3 class="text-2xl font-bold text-white mb-3">
-            ${comparison.individualBetter 
-              ? '✓ Individual Filing is More Advantageous' 
-              : '✓ Combined Filing is More Advantageous'}
+            ${comparison.individualBetter ? t['individual-better'] : t['combined-better']}
           </h3>
           <p class="text-xl font-bold text-white mb-4">
-            Potential Savings: ${formatCurrency(comparison.savings)} JOD
+            ${t['potential-savings']}: ${formatCurrency(comparison.savings)} ${currentLang === 'ar' ? 'دينار' : 'JOD'}
           </p>
           <p class="text-lg max-w-3xl mx-auto text-white/90">
-            ${comparison.individualBetter 
-              ? 'Filing individually would result in lower tax liability or higher refund compared to combined filing.'
-              : 'Filing combined would result in lower tax liability or higher refund compared to individual filing.'}
+            ${comparison.individualBetter ? t['individual-better-desc'] : t['combined-better-desc']}
           </p>
         </div>
       `;
